@@ -1,7 +1,13 @@
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        avocado: {
+          300: '#568203'
+        },
+      },
+    },
   },
   plugins: [],
 }
