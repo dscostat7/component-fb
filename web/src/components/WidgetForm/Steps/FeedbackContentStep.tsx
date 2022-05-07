@@ -2,16 +2,25 @@ import { FeedbackType, typesFeedback } from "..";
 import { CloseButtom } from "../../CloseButtom"
 import { ScreenshotButton } from "../../ScreenshotButton"
 import { ArrowLeft } from 'phosphor-react';
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 interface FeedbackContentStepProps {
     feedbackType: FeedbackType;
     onFeedbackRestartRequested: () => void;
+    onFeedbackSent: () => void;
 }
 
-export function FeedbackContentStep({ feedbackType, onFeedbackRestartRequested }: FeedbackContentStepProps) {
+export function FeedbackContentStep({ feedbackType, onFeedbackRestartRequested, onFeedbackSent }: FeedbackContentStepProps) {
     const [screenshot, setScreenshot] = useState<string | null>(null);
+    const [comment, setComment] = useState('');
     const fedbackTypeInfo = typesFeedback[feedbackType];
+
+    function handleSubmitFeedback(event: FormEvent) {
+        event.preventDefault()
+        console.log({ screenshot, comment })
+        
+        onFeedbackSent();
+    }
 
     return (
         <>
@@ -30,20 +39,23 @@ export function FeedbackContentStep({ feedbackType, onFeedbackRestartRequested }
                 <CloseButtom />
             </header>
            
-            <form className="my-4 w-full">
+            <form onSubmit={handleSubmitFeedback} className="my-4 w-full">
                 <textarea
                     className="min-w-[304px] w-full min-h-[112px] text-sm placeholder-zinc-400 text-zinc-100 border-zinc-600 bg-transparent rounded-md focus:border-avocado-300 focus:ring-avocado-300 focus:outline-none focus:ring-1 resize-none scrollbar scrollbar-thumb-zinc-700 scrollbar-track-transparent scrollbar-thin"
                     placeholder="Tell me in detail what's going on..."
+                    onChange={event => setComment(event.target.value)}
                 />
 
                 <footer className="flex gap-2 mt-2">
                     <ScreenshotButton
+                        screenshot={screenshot}
                         onScreenshotTook={setScreenshot}
                     />
 
                     <button
                         type="submit"
-                        className="p-2 bg-avocado-100 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-avocado-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-avocado-300 transition-colors"
+                        disabled={comment.length == 0}
+                        className="p-2 bg-avocado-100 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-avocado-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-avocado-300 transition-colors disabled:opacity-50 disabled:hover:bg-avocado-100"
                     >
                         Submit
                     </button>
