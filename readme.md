@@ -31,7 +31,7 @@ A Component Widget for feedback, utility in all websites and projects.
 - Vite
 - TailWindCSS
  
-<a href="https://component-feedback.vercel.app/">Access application developed</a>
+<a href="https://component-feedback.vercel.app/" target="_blank">Access application developed</a>
 ---
 
 Developed by <a href="https://beacons.ai/dscostat7/" target="_blank">Diego Souza</a>
